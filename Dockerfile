@@ -1,17 +1,17 @@
 # Stage 1: Build the application
 FROM maven:3.8.3-openjdk-17 AS build
-#WORKDIR /app
+WORKDIR /app
 COPY pom.xml .
 COPY src ./src
 RUN mvn clean package -DskipTests
 
-# Stage 2: Create the final image
-FROM openjdk:17-jre-slim
-#WORKDIR /app
+# Use a lightweight OpenJDK base image
+FROM openjdk:17-jdk-slim
 
 # Expose the port your Spring Boot application runs on (e.g., 8080)
-EXPOSE 8081
+#EXPOSE 8081
 
+VOLUME /tmp
 # Copy the executable JAR file into the container
 ARG JAR_FILE=target/*.jar 
 # Adjust path if using Gradle
